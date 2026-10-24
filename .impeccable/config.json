@@ -1,0 +1,17 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "italic-serif-display",
+        "value": "*",
+        "files": [
+          "index.html"
+        ],
+        "createdAt": "2026-10-24T14:26:47.050Z",
+        "reason": "user confirmed: direction artistique validée (Newsreader italique en signature du titre), voir docs/direction.html"
+      }
+    ]
+  }
+}

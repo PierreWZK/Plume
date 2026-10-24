@@ -5,29 +5,52 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Plume · Des images légères, sans quitter votre navigateur</title>
   <meta name="description" content="Plume compresse vos photos pour le web directement dans votre navigateur : aucune image n'est envoyée sur un serveur.">
+  <meta name="theme-color" content="#F3F2EE">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@600;700&family=Newsreader:ital,opsz,wght@1,6..72,300&family=Onest:wght@400;500&display=swap">
   <link rel="stylesheet" href="/src/styles.css">
   <script type="module" src="/src/main.js"></script>
 </head>
 <body>
-  <main>
-    <h1>Plume</h1>
-    <label class="drop" id="drop">
-      <input type="file" id="files" accept="image/jpeg,image/png,image/webp" multiple>
-      <b>Déposez une photo ici</b>
-      <span>ou cliquez pour la choisir · JPG, PNG, WEBP</span>
-    </label>
-    <form class="settings" id="settings">
-      <fieldset>
-        <legend>Niveau de compression</legend>
-        <label><input type="radio" name="level" value="quality"> Qualité max</label>
-        <label><input type="radio" name="level" value="balanced" checked> Équilibré</label>
-        <label><input type="radio" name="level" value="light"> Poids min</label>
-        <p class="hint" id="level-hint"></p>
-      </fieldset>
-      <label class="switch"><input type="checkbox" name="webp" id="webp"> Convertir en WebP</label>
-      <p class="hint" id="webp-hint">Désactivé : chaque image garde son format d'origine.</p>
-    </form>
-    <ul class="results" id="results" aria-live="polite"></ul>
+  <header class="top">
+    <a class="brand" href="/" aria-label="Plume, accueil">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M8 26c3-9 8-15 17-19-2 7-6 13-13 15m-4 4 6-7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Plume
+    </a>
+  </header>
+
+  <main class="hero">
+    <div class="intro">
+      <h1>Des photos plus légères.<em>Sans rien envoyer.</em></h1>
+      <p class="lead">Déposez vos images, choisissez un niveau, téléchargez. Tout se passe sur votre appareil : aucune image ne quitte votre navigateur.</p>
+      <label class="drop" id="drop">
+        <input type="file" id="files" accept="image/jpeg,image/png,image/webp" multiple>
+        <span class="plus" aria-hidden="true">+</span>
+        <b>Déposez vos photos ici</b>
+        <small>ou cliquez pour les choisir</small>
+        <span class="formats">JPG · PNG · WEBP</span>
+      </label>
+    </div>
+
+    <div class="panel">
+      <form class="settings" id="settings">
+        <fieldset class="levels">
+          <legend>Niveau de compression</legend>
+          <div class="seg">
+            <label><input type="radio" name="level" value="quality"><span>Qualité max</span></label>
+            <label><input type="radio" name="level" value="balanced" checked><span>Équilibré</span></label>
+            <label><input type="radio" name="level" value="light"><span>Poids min</span></label>
+          </div>
+          <p class="hint" id="level-hint"></p>
+        </fieldset>
+        <div class="format">
+          <label class="switch"><input type="checkbox" name="webp" id="webp"> Convertir en WebP</label>
+          <p class="hint" id="webp-hint">Désactivé : chaque image garde son format d'origine.</p>
+        </div>
+      </form>
+      <ul class="results" id="results" aria-live="polite"></ul>
+    </div>
   </main>
 </body>
 </html>

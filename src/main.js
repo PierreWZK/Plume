@@ -108,8 +108,13 @@ async function handle(files) {
 }
 
 input.addEventListener('change', () => input.files.length && handle(input.files));
-drop.addEventListener('dragover', (event) => event.preventDefault());
+drop.addEventListener('dragover', (event) => {
+  event.preventDefault();
+  drop.classList.add('over');
+});
+drop.addEventListener('dragleave', () => drop.classList.remove('over'));
 drop.addEventListener('drop', (event) => {
   event.preventDefault();
+  drop.classList.remove('over');
   if (event.dataTransfer.files.length) handle(event.dataTransfer.files);
 });

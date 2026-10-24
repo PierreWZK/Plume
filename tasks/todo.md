@@ -10,7 +10,7 @@ Détail de chaque étape dans [plan.md](plan.md).
 - [x] 5. Réglages (niveaux, WebP)
 - [x] 6. Cas limites et messages
 - [x] Point d'étape B
-- [ ] 7. Habillage selon la direction
+- [x] 7. Habillage selon la direction
 - [ ] 8. Comparateur et mouvement
 - [ ] 9. Accessibilité et finitions
 - [ ] Point d'étape C
