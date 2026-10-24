@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Plume · Des images légères, sans quitter votre navigateur</title>
+  <meta name="description" content="Plume compresse vos photos pour le web directement dans votre navigateur : aucune image n'est envoyée sur un serveur.">
+  <meta name="theme-color" content="#F3F2EE">
+  <link rel="canonical" href="https://plume.projectp.fr/">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="fr_FR">
+  <meta property="og:site_name" content="Plume">
+  <meta property="og:title" content="Plume · Des images légères, sans quitter votre navigateur">
+  <meta property="og:description" content="Déposez vos photos, choisissez un niveau, téléchargez. Compression 100 % dans le navigateur : aucune image n'est envoyée.">
+  <meta property="og:url" content="https://plume.projectp.fr/">
+  <meta property="og:image" content="https://plume.projectp.fr/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Plume · aperçu du site">
+  <meta name="twitter:card" content="summary_large_image">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Plume",
+    "url": "https://plume.projectp.fr/",
+    "description": "Compresseur d'images 100 % dans le navigateur : JPEG, PNG et WebP, trois niveaux, aucune image envoyée.",
+    "applicationCategory": "MultimediaApplication",
+    "operatingSystem": "Tous (navigateur web)",
+    "inLanguage": "fr",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" },
+    "isPartOf": { "@type": "WebSite", "name": "30 jours, 30 projets", "url": "https://projectp.fr/" }
+  }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@600;700&family=Newsreader:ital,opsz,wght@1,6..72,300&family=Onest:wght@400;500&display=swap">
+  <link rel="stylesheet" href="/src/styles.css">
+  <script type="module" src="/src/main.js"></script>
+</head>
+<body>
+  <header class="top">
+    <a class="brand" href="/" aria-label="Plume, accueil">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M8 26c3-9 8-15 17-19-2 7-6 13-13 15m-4 4 6-7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Plume
+    </a>
+  </header>
+
+  <main>
+  <div class="hero">
+    <div class="intro">
+      <h1>Des photos plus légères.<em>Sans rien envoyer.</em></h1>
+      <p class="lead">Déposez vos images, choisissez un niveau, téléchargez. Tout se passe sur votre appareil : aucune image ne quitte votre navigateur.</p>
+      <label class="drop" id="drop">
+        <input type="file" id="files" accept="image/jpeg,image/png,image/webp" multiple>
+        <span class="plus" aria-hidden="true">+</span>
+        <b>Déposez vos photos ici</b>
+        <small>ou cliquez pour les choisir</small>
+        <span class="formats">JPG · PNG · WEBP</span>
+      </label>
+    </div>
+
+    <div class="panel">
+      <form class="settings" id="settings">
+        <fieldset class="levels">
+          <legend>Niveau de compression</legend>
+          <div class="seg">
+            <label><input type="radio" name="level" value="quality"><span>Qualité max</span></label>
+            <label><input type="radio" name="level" value="balanced" checked><span>Équilibré</span></label>
+            <label><input type="radio" name="level" value="light"><span>Poids min</span></label>
+          </div>
+          <p class="hint" id="level-hint"></p>
+        </fieldset>
+        <div class="format">
+          <label class="switch"><input type="checkbox" name="webp" id="webp"> Convertir en WebP</label>
+          <p class="hint" id="webp-hint">Désactivé : chaque image garde son format d'origine.</p>
+        </div>
+      </form>
+      <p class="visually-hidden" id="status" role="status"></p>
+      <ul class="results" id="results"></ul>
+    </div>
+  </div>
+
+  <section class="proof reveal" aria-labelledby="proof-title">
+    <div class="proof-text">
+      <h2 id="proof-title">Avant, après : <em>la différence ne se voit pas.</em></h2>
+      <p>Cette photo pèse 921 Ko. Plume la ramène à 159 Ko en «&nbsp;Équilibré&nbsp;». Faites défiler : le rideau passe de l'original à la version compressée.</p>
+    </div>
+    <figure class="compare-wrap">
+      <div class="compare" style="--pos: 50%">
+        <img src="/assets/images/lake-mountains.jpg" alt="Lac de montagne, photo d'origine" width="960" height="665" loading="lazy">
+        <img class="after" src="/assets/images/lake-mountains.jpg" alt="" width="960" height="665" loading="lazy">
+        <span class="handle" aria-hidden="true"></span>
+        <span class="tag left">Avant · 921 Ko</span>
+        <span class="tag right">Après · 159 Ko</span>
+      </div>
+      <div class="gain-card" aria-hidden="true"><span>Gain</span><b>−83 %</b><i><s style="width: 83%"></s></i></div>
+      <figcaption>Photo « Lake Mountains », eberhard grossgasteiger, domaine public (CC0).</figcaption>
+    </figure>
+  </section>
+  </main>
+
+  <footer class="foot">
+    <p>Plume · Jour 12 du défi <a href="https://projectp.fr/">30 jours, 30 projets</a></p>
+    <p><a href="https://github.com/PierreWZK/Plume">Code source</a> · Photo : eberhard grossgasteiger (CC0)</p>
+  </footer>
+</body>
+</html>
