@@ -1,0 +1,9 @@
+/* Styles provisoires : l'habillage de la direction validée arrive à l'étape 7 */
+body { margin: 0; font-family: system-ui, sans-serif; background: #F3F2EE; color: #141414; }
+main { max-width: 720px; margin: 0 auto; padding: 32px 16px; }
+.drop { display: grid; gap: 4px; padding: 32px; border: 2px dashed #6F6C66; border-radius: 16px; text-align: center; cursor: pointer; }
+.drop input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.results { list-style: none; padding: 0; margin-top: 24px; }
+.results li { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 12px 0; }
+.results img { object-fit: cover; border-radius: 8px; }
+.gain { font-weight: 700; color: #B4532A; }

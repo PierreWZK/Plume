@@ -5,10 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Plume · Des images légères, sans quitter votre navigateur</title>
   <meta name="description" content="Plume compresse vos photos pour le web directement dans votre navigateur : aucune image n'est envoyée sur un serveur.">
+  <link rel="stylesheet" href="/src/styles.css">
+  <script type="module" src="/src/main.js"></script>
 </head>
 <body>
   <main>
     <h1>Plume</h1>
+    <label class="drop" id="drop">
+      <input type="file" id="files" accept="image/jpeg,image/png,image/webp">
+      <b>Déposez une photo ici</b>
+      <span>ou cliquez pour la choisir · JPG, PNG, WEBP</span>
+    </label>
+    <ul class="results" id="results" aria-live="polite"></ul>
   </main>
 </body>
 </html>
