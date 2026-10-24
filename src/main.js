@@ -1,7 +1,10 @@
 import { compressFile } from './compress.js';
 import { CONCURRENCY, processBatch } from './batch.js';
 import { formatBytes } from './format.js';
+import { initReveal } from './reveal.js';
 import { LEVELS, canEncodeWebp, errorMessage, isSupported, suggestWebp } from './settings.js';
+
+initReveal();
 
 const drop = document.getElementById('drop');
 const input = document.getElementById('files');
@@ -62,7 +65,7 @@ const compress = makeCompressor();
 function render(item, file, result, settings) {
   const url = URL.createObjectURL(result.blob);
   const tip = suggestWebp(file, settings) && !webp.disabled
-    ? '<p class="tip">Astuce : un PNG gagne peu. Activez « Convertir en WebP » pour l\'alléger vraiment.</p>'
+    ? '<p class="tip">Astuce : un PNG gagne peu. Activez «&nbsp;Convertir en WebP&nbsp;» pour l\'alléger vraiment.</p>'
     : '';
   item.innerHTML = `
     <img src="${url}" alt="" width="96" height="96">
