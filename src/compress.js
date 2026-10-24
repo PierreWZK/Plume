@@ -1,4 +1,5 @@
 import { gainPercent } from './format.js';
+import { stripMetadata } from './metadata.js';
 import { isTooLarge, keepSmaller, outputFor, outputName } from './settings.js';
 
 // OffscreenCanvas existe dans les workers ; la page utilise un canvas classique
@@ -26,11 +27,14 @@ export async function encodeWithCanvas(file, { type, quality }) {
   }
 }
 
-/** Compresse un fichier selon les réglages ; garde l'original si le résultat ne gagne rien. */
+/** Compresse un fichier selon les réglages ; garde l'original, nettoyé, si le résultat ne gagne rien. */
 export async function compressFile(file, settings, encode = encodeWithCanvas) {
   const output = outputFor(file, settings);
-  const blob = keepSmaller(file, await encode(file, output));
-  const kept = blob === file;
+  const smaller = keepSmaller(file, await encode(file, output));
+  const kept = smaller === file;
+  const blob = kept
+    ? new Blob([stripMetadata(new Uint8Array(await file.arrayBuffer()), file.type)], { type: file.type })
+    : smaller;
   return {
     blob,
     name: outputName(file.name, kept ? file.type : output.type),

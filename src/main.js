@@ -1,6 +1,7 @@
 import { compressFile } from './compress.js';
 import { CONCURRENCY, processBatch } from './batch.js';
 import { formatBytes, progressMessage } from './format.js';
+import { createPool } from './pool.js';
 import { initReveal } from './reveal.js';
 import { LEVELS, canEncodeWebp, errorMessage, isSupported, suggestWebp } from './settings.js';
 
@@ -39,32 +40,19 @@ form.addEventListener('change', () => {
   if (lastFiles.length) handle(lastFiles);
 });
 
-// Une compression par worker, au plus CONCURRENCY à la fois : un worker libre est toujours disponible
-function makeCompressor() {
-  if (typeof Worker === 'undefined') return compressFile;
-  const idle = Array.from({ length: CONCURRENCY }, () => new Worker(new URL('./worker.js', import.meta.url), { type: 'module' }));
-  const pending = new Map();
-  let nextId = 0;
-  for (const worker of idle) {
-    worker.onmessage = ({ data }) => {
-      const { resolve, reject } = pending.get(data.id);
-      pending.delete(data.id);
-      idle.push(worker);
-      data.error ? reject(new Error(data.error)) : resolve(data.result);
-    };
-  }
-  return (file, options) => new Promise((resolve, reject) => {
-    const worker = idle.pop();
-    const id = nextId++;
-    pending.set(id, { resolve, reject });
-    worker.postMessage({ id, file, settings: options });
-  });
-}
+// CONCURRENCY workers ; sans worker, ou si un worker plante, la page prend le relais
+const workers = typeof Worker === 'undefined'
+  ? []
+  : Array.from({ length: CONCURRENCY }, () => new Worker(new URL('./worker.js', import.meta.url), { type: 'module' }));
+const runInPool = createPool(workers, ({ file, settings }) => compressFile(file, settings));
+const compress = (file, settings) => runInPool({ file, settings });
 
-const compress = makeCompressor();
+// Adresses blob: du lot affiché, libérées quand il est remplacé
+let urls = [];
 
 function render(item, file, result, settings) {
   const url = URL.createObjectURL(result.blob);
+  urls.push(url);
   const tip = suggestWebp(file, settings) && !webp.disabled
     ? '<p class="tip">Astuce : un PNG gagne peu. Activez «&nbsp;Convertir en WebP&nbsp;» pour l\'alléger vraiment.</p>'
     : '';
@@ -106,6 +94,8 @@ async function handle(files) {
     if (current === run) status.textContent = progressMessage(done, total);
   });
   if (current !== run) return;
+  urls.forEach((url) => URL.revokeObjectURL(url));
+  urls = [];
   outcomes.forEach((outcome, i) => {
     if (outcome.error) renderError(items[i], lastFiles[i], outcome.error);
     else render(items[i], lastFiles[i], outcome, settings);
