@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
-  DEFAULT_LEVEL, LEVELS, canEncodeWebp, isSupported, isTooLarge, keepSmaller, outputFor, outputName, suggestWebp,
+  DEFAULT_LEVEL, LEVELS, canEncodeWebp, errorMessage, isSupported, isTooLarge, keepSmaller, outputFor, outputName, suggestWebp,
 } from '../src/settings.js';
 
 // Un navigateur qui ne sait pas encoder un format renvoie du PNG à la place (cas de Safari pour le WebP)
@@ -68,6 +68,18 @@ test('jamais plus lourd : l\'original gagne s\'il est plus léger ou égal', () 
   assert.equal(keepSmaller({ size: 700 }, smaller), smaller);
   assert.deepEqual(keepSmaller({ size: 700 }, bigger), { size: 700 });
   assert.deepEqual(keepSmaller({ size: 700 }, { size: 700 }), { size: 700 });
+});
+
+test('errorMessage explique une image trop grande', () => {
+  assert.equal(errorMessage('too-large'), 'Image trop grande : plus de 40 mégapixels.');
+});
+
+test('errorMessage explique un format refusé', () => {
+  assert.equal(errorMessage('unsupported'), 'Format non pris en charge : JPG, PNG ou WEBP uniquement.');
+});
+
+test('errorMessage traite toute autre erreur comme une image illisible', () => {
+  assert.equal(errorMessage('The source image could not be decoded.'), 'Image illisible ou endommagée.');
 });
 
 test('un PNG gardé en PNG déclenche le conseil WebP', () => {

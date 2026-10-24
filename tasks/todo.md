@@ -8,8 +8,8 @@ Détail de chaque étape dans [plan.md](plan.md).
 - [x] Point d'étape A
 - [x] 4. Plusieurs images, en arrière-plan
 - [x] 5. Réglages (niveaux, WebP)
-- [ ] 6. Cas limites et messages
-- [ ] Point d'étape B
+- [x] 6. Cas limites et messages
+- [x] Point d'étape B
 - [ ] 7. Habillage selon la direction
 - [ ] 8. Comparateur et mouvement
 - [ ] 9. Accessibilité et finitions

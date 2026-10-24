@@ -7,3 +7,4 @@ main { max-width: 720px; margin: 0 auto; padding: 32px 16px; }
 .results li { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 12px 0; }
 .results img { object-fit: cover; border-radius: 8px; }
 .gain { font-weight: 700; color: #B4532A; }
+.results .error .message, .tip { color: #6F6C66; flex-basis: 100%; margin: 0; }

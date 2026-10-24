@@ -1,7 +1,7 @@
 import { compressFile } from './compress.js';
 import { CONCURRENCY, processBatch } from './batch.js';
 import { formatBytes } from './format.js';
-import { LEVELS, canEncodeWebp, isSupported } from './settings.js';
+import { LEVELS, canEncodeWebp, errorMessage, isSupported, suggestWebp } from './settings.js';
 
 const drop = document.getElementById('drop');
 const input = document.getElementById('files');
@@ -59,38 +59,52 @@ function makeCompressor() {
 
 const compress = makeCompressor();
 
-function render(item, file, result) {
+function render(item, file, result, settings) {
   const url = URL.createObjectURL(result.blob);
+  const tip = suggestWebp(file, settings) && !webp.disabled
+    ? '<p class="tip">Astuce : un PNG gagne peu. Activez « Convertir en WebP » pour l\'alléger vraiment.</p>'
+    : '';
   item.innerHTML = `
     <img src="${url}" alt="" width="96" height="96">
     <span class="name"></span>
     <span class="sizes">${formatBytes(result.before)} → ${formatBytes(result.after)}</span>
     <span class="gain">${result.kept ? 'Déjà optimisée' : `−${result.gain} %`}</span>
-    <a class="download" href="${url}">Télécharger</a>`;
+    <a class="download" href="${url}">Télécharger</a>${tip}`;
   // Noms fournis par l'utilisateur : jamais dans le HTML
   item.querySelector('.name').textContent = file.name;
   item.querySelector('.download').download = result.name;
+}
+
+// Un format refusé devient une erreur de son image, sans bloquer les autres
+const checkedCompress = (file, options) =>
+  isSupported(file.type) ? compress(file, options) : Promise.reject(new Error('unsupported'));
+
+function renderError(item, file, code) {
+  item.classList.add('error');
+  item.innerHTML = '<span class="name"></span><span class="message"></span>';
+  item.querySelector('.name').textContent = file.name;
+  item.querySelector('.message').textContent = errorMessage(code);
 }
 
 async function handle(files) {
   const current = ++run;
   const settings = readSettings();
   lastFiles = [...files];
-  const accepted = lastFiles.filter((file) => isSupported(file.type));
-  const items = accepted.map((file) => {
+  const items = lastFiles.map((file) => {
     const item = document.createElement('li');
     item.textContent = `${file.name} · en attente…`;
     return item;
   });
   results.replaceChildren(...items);
 
-  await processBatch(accepted, settings, compress, (done, total) => {
+  const outcomes = await processBatch(lastFiles, settings, checkedCompress, (done, total) => {
     results.setAttribute('aria-label', `${done} sur ${total} images traitées`);
-  }).then((outcomes) => current === run && outcomes.forEach((outcome, i) => {
-    outcome.error
-      ? (items[i].textContent = `${accepted[i].name} · erreur : ${outcome.error}`)
-      : render(items[i], accepted[i], outcome);
-  }));
+  });
+  if (current !== run) return;
+  outcomes.forEach((outcome, i) => {
+    if (outcome.error) renderError(items[i], lastFiles[i], outcome.error);
+    else render(items[i], lastFiles[i], outcome, settings);
+  });
 }
 
 input.addEventListener('change', () => input.files.length && handle(input.files));

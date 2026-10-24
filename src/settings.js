@@ -32,6 +32,14 @@ export function outputName(name, type) {
 /** Jamais plus lourd : le résultat ne remplace l'original que s'il pèse moins. */
 export const keepSmaller = (original, compressed) => (compressed.size < original.size ? compressed : original);
 
+const ERRORS = {
+  'too-large': 'Image trop grande : plus de 40 mégapixels.',
+  unsupported: 'Format non pris en charge : JPG, PNG ou WEBP uniquement.',
+};
+
+/** Message affiché sous l'image ; une erreur inconnue vient du décodage. */
+export const errorMessage = (code) => ERRORS[code] ?? 'Image illisible ou endommagée.';
+
 /** Le navigateur sait-il produire du WebP ? Sinon il renvoie du PNG à la place (Safari). */
 export function canEncodeWebp(makeCanvas = () => document.createElement('canvas')) {
   return makeCanvas().toDataURL('image/webp').startsWith('data:image/webp');
