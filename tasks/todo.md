@@ -2,8 +2,8 @@
 
 Détail de chaque étape dans [plan.md](plan.md).
 
-- [ ] 1. Projet et tests (`npm test` + `npm run build`)
-- [ ] 2. Logique de compression pure
+- [x] 1. Projet et tests (`npm test` + `npm run build`)
+- [x] 2. Logique de compression pure
 - [ ] 3. Parcours complet sur une image
 - [ ] Point d'étape A
 - [ ] 4. Plusieurs images, en arrière-plan
