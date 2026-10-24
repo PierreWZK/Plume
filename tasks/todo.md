@@ -7,7 +7,7 @@ Détail de chaque étape dans [plan.md](plan.md).
 - [x] 3. Parcours complet sur une image
 - [x] Point d'étape A
 - [x] 4. Plusieurs images, en arrière-plan
-- [ ] 5. Réglages (niveaux, WebP)
+- [x] 5. Réglages (niveaux, WebP)
 - [ ] 6. Cas limites et messages
 - [ ] Point d'étape B
 - [ ] 7. Habillage selon la direction

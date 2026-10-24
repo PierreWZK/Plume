@@ -16,6 +16,17 @@
       <b>Déposez une photo ici</b>
       <span>ou cliquez pour la choisir · JPG, PNG, WEBP</span>
     </label>
+    <form class="settings" id="settings">
+      <fieldset>
+        <legend>Niveau de compression</legend>
+        <label><input type="radio" name="level" value="quality"> Qualité max</label>
+        <label><input type="radio" name="level" value="balanced" checked> Équilibré</label>
+        <label><input type="radio" name="level" value="light"> Poids min</label>
+        <p class="hint" id="level-hint"></p>
+      </fieldset>
+      <label class="switch"><input type="checkbox" name="webp" id="webp"> Convertir en WebP</label>
+      <p class="hint" id="webp-hint">Désactivé : chaque image garde son format d'origine.</p>
+    </form>
     <ul class="results" id="results" aria-live="polite"></ul>
   </main>
 </body>

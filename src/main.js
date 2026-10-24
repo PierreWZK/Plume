@@ -1,12 +1,39 @@
 import { compressFile } from './compress.js';
 import { CONCURRENCY, processBatch } from './batch.js';
 import { formatBytes } from './format.js';
-import { DEFAULT_LEVEL, isSupported } from './settings.js';
+import { LEVELS, canEncodeWebp, isSupported } from './settings.js';
 
 const drop = document.getElementById('drop');
 const input = document.getElementById('files');
 const results = document.getElementById('results');
-const settings = { level: DEFAULT_LEVEL, toWebp: false };
+const form = document.getElementById('settings');
+const levelHint = document.getElementById('level-hint');
+const webp = document.getElementById('webp');
+const webpHint = document.getElementById('webp-hint');
+
+let lastFiles = [];
+let run = 0; // un changement de réglage pendant un lot rend ses résultats obsolètes
+
+const readSettings = () => ({ level: form.elements.level.value, toWebp: webp.checked });
+
+function updateHints() {
+  levelHint.textContent = LEVELS[form.elements.level.value].hint;
+  if (!webp.disabled) {
+    webpHint.textContent = webp.checked
+      ? 'Activé : toutes les images sortent en WebP, plus léger.'
+      : "Désactivé : chaque image garde son format d'origine.";
+  }
+}
+
+if (!canEncodeWebp()) {
+  webp.disabled = true;
+  webpHint.textContent = 'Votre navigateur ne sait pas créer de WebP : chaque image garde son format.';
+}
+updateHints();
+form.addEventListener('change', () => {
+  updateHints();
+  if (lastFiles.length) handle(lastFiles);
+});
 
 // Une compression par worker, au plus CONCURRENCY à la fois : un worker libre est toujours disponible
 function makeCompressor() {
@@ -39,12 +66,17 @@ function render(item, file, result) {
     <span class="name"></span>
     <span class="sizes">${formatBytes(result.before)} → ${formatBytes(result.after)}</span>
     <span class="gain">${result.kept ? 'Déjà optimisée' : `−${result.gain} %`}</span>
-    <a class="download" href="${url}" download="${result.name}">Télécharger</a>`;
-  item.querySelector('.name').textContent = file.name; // nom fourni par l'utilisateur : jamais en HTML
+    <a class="download" href="${url}">Télécharger</a>`;
+  // Noms fournis par l'utilisateur : jamais dans le HTML
+  item.querySelector('.name').textContent = file.name;
+  item.querySelector('.download').download = result.name;
 }
 
 async function handle(files) {
-  const accepted = [...files].filter((file) => isSupported(file.type));
+  const current = ++run;
+  const settings = readSettings();
+  lastFiles = [...files];
+  const accepted = lastFiles.filter((file) => isSupported(file.type));
   const items = accepted.map((file) => {
     const item = document.createElement('li');
     item.textContent = `${file.name} · en attente…`;
@@ -54,7 +86,7 @@ async function handle(files) {
 
   await processBatch(accepted, settings, compress, (done, total) => {
     results.setAttribute('aria-label', `${done} sur ${total} images traitées`);
-  }).then((outcomes) => outcomes.forEach((outcome, i) => {
+  }).then((outcomes) => current === run && outcomes.forEach((outcome, i) => {
     outcome.error
       ? (items[i].textContent = `${accepted[i].name} · erreur : ${outcome.error}`)
       : render(items[i], accepted[i], outcome);

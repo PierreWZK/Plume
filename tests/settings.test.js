@@ -1,8 +1,19 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
-  DEFAULT_LEVEL, LEVELS, isSupported, isTooLarge, keepSmaller, outputFor, outputName, suggestWebp,
+  DEFAULT_LEVEL, LEVELS, canEncodeWebp, isSupported, isTooLarge, keepSmaller, outputFor, outputName, suggestWebp,
 } from '../src/settings.js';
+
+// Un navigateur qui ne sait pas encoder un format renvoie du PNG à la place (cas de Safari pour le WebP)
+const canvasThatEncodes = (prefix) => () => ({ toDataURL: () => `${prefix};base64,AAAA` });
+
+test('canEncodeWebp reconnaît un navigateur qui encode le WebP', () => {
+  assert.equal(canEncodeWebp(canvasThatEncodes('data:image/webp')), true);
+});
+
+test('canEncodeWebp détecte un navigateur qui retombe sur du PNG', () => {
+  assert.equal(canEncodeWebp(canvasThatEncodes('data:image/png')), false);
+});
 
 const jpeg = { name: 'paysage.jpg', type: 'image/jpeg', size: 2_000_000 };
 const png = { name: 'logo.png', type: 'image/png', size: 300_000 };

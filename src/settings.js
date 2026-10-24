@@ -32,5 +32,10 @@ export function outputName(name, type) {
 /** Jamais plus lourd : le résultat ne remplace l'original que s'il pèse moins. */
 export const keepSmaller = (original, compressed) => (compressed.size < original.size ? compressed : original);
 
+/** Le navigateur sait-il produire du WebP ? Sinon il renvoie du PNG à la place (Safari). */
+export function canEncodeWebp(makeCanvas = () => document.createElement('canvas')) {
+  return makeCanvas().toDataURL('image/webp').startsWith('data:image/webp');
+}
+
 /** Un PNG réencodé en PNG gagne peu : on propose WebP. */
 export const suggestWebp = (file, { toWebp }) => file.type === 'image/png' && !toWebp;

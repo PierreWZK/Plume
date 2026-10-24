@@ -46,6 +46,12 @@ test('processBatch isole l\'erreur d\'une image sans bloquer les autres', async 
   assert.equal(results[2].name, 'c.jpg');
 });
 
+test('processBatch garde le nom de sortie calculé par la compression', async () => {
+  const rename = async (f) => ({ name: f.name.replace('.jpg', '-plume.webp'), before: 1, after: 1 });
+  const [result] = await processBatch([file('a.jpg')], settings, rename);
+  assert.equal(result.name, 'a-plume.webp');
+});
+
 test('processBatch accepte un lot vide', async () => {
   assert.deepEqual(await processBatch([], settings, fakeCompress), []);
 });

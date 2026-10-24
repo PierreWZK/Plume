@@ -15,7 +15,7 @@ export async function processBatch(files, settings, compress, onProgress = () =>
       const index = next++;
       const file = files[index];
       try {
-        results[index] = { ...(await compress(file, settings)), name: file.name };
+        results[index] = await compress(file, settings);
       } catch (error) {
         results[index] = { name: file.name, error: error.message };
       }
