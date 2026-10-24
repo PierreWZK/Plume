@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Plume · Direction artistique</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@600;700&family=Newsreader:ital,opsz,wght@1,6..72,300&family=Onest:wght@400;500&display=swap">
+<style>
+  /* Planche de direction : jetable, sert seulement à valider couleurs, polices et ambiance */
+  :root {
+    --encre: #141414;
+    --papier: #F3F2EE;
+    --graphite: #6F6C66;
+    --rouille: #B4532A;
+    --ligne: #E2E0DA;
+    --titre: 'Familjen Grotesk', system-ui, sans-serif;
+    --accent-titre: 'Newsreader', Georgia, serif;
+    --texte: 'Onest', system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  body { background: var(--papier); color: var(--encre); font: 400 16px/1.55 var(--texte); }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 32px 20px 120px; }
+  .label { font: 500 12px/1 var(--texte); letter-spacing: .14em; text-transform: uppercase; color: var(--graphite); }
+  section { padding: 56px 0; border-top: 1px solid var(--ligne); }
+  h2 { font: 600 28px/1.1 var(--titre); letter-spacing: -.01em; margin: 10px 0 28px; }
+
+  /* Palette */
+  .swatches { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  .sw { border-radius: 16px; padding: 18px; min-height: 150px; display: flex; flex-direction: column; justify-content: flex-end; border: 1px solid var(--ligne); }
+  .sw b { font: 600 18px var(--titre); }
+  .sw span { font-size: 13px; }
+
+  /* Héro maquette */
+  .hero { display: grid; grid-template-columns: 1.05fr 1fr; gap: 48px; align-items: center; }
+  .hero h1 { font: 700 clamp(44px, 6vw, 84px)/.98 var(--titre); letter-spacing: -.035em; margin: 18px 0 22px; }
+  .hero h1 em { display: block; font: italic 300 1.04em/1 var(--accent-titre); letter-spacing: -.01em; }
+  .hero p { color: var(--graphite); max-width: 42ch; font-size: 17px; }
+  .drop { margin-top: 32px; width: 260px; aspect-ratio: 1; border-radius: 50%; background: var(--encre); color: var(--papier);
+          display: grid; place-content: center; text-align: center; gap: 8px; padding: 28px; box-shadow: 0 0 0 14px #fff, 0 30px 60px -20px #0005;
+          transition: transform .35s cubic-bezier(.2,.8,.2,1); cursor: pointer; }
+  .drop:hover { transform: scale(1.03); }
+  .plus { width: 46px; height: 46px; border-radius: 50%; background: var(--papier); color: var(--encre); display: grid; place-items: center; margin: 0 auto 6px; font: 400 26px/1 var(--texte); }
+  .drop small { opacity: .65; font-size: 12px; }
+  .formats { font: 500 11px var(--texte); letter-spacing: .1em; opacity: .7; margin-top: 10px; }
+
+  /* Avant / après piloté par le défilement */
+  .compare { position: relative; border-radius: 18px; overflow: hidden; aspect-ratio: 4/3; box-shadow: 0 30px 70px -30px #0006; }
+  .compare img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: grayscale(1) contrast(1.05); }
+  .compare .after { clip-path: inset(0 0 0 var(--pos, 50%)); }
+  .compare .handle { position: absolute; top: 0; bottom: 0; left: var(--pos, 50%); width: 2px; background: #fff; }
+  .compare .handle::after { content: ''; position: absolute; top: 50%; left: 50%; width: 26px; height: 26px; translate: -50% -50%; border-radius: 50%; background: #fff; box-shadow: 0 2px 8px #0004; }
+  .tag { position: absolute; top: 14px; padding: 8px 14px; border-radius: 999px; background: #fffe; font: 500 13px var(--texte); }
+  .tag.l { left: 14px; } .tag.r { right: 14px; }
+  .card { margin: -46px 18px 0 auto; position: relative; width: 230px; background: #fff; border-radius: 16px; padding: 16px 18px; box-shadow: 0 20px 40px -20px #0004; }
+  .card .n { font: 700 32px/1 var(--titre); color: var(--rouille); letter-spacing: -.02em; }
+  .bar { height: 4px; border-radius: 4px; background: var(--ligne); margin-top: 10px; overflow: hidden; }
+  .bar i { display: block; height: 100%; width: 74%; background: var(--encre); }
+
+  /* Réglages */
+  .controls { display: flex; flex-wrap: wrap; gap: 40px; align-items: flex-start; }
+  .seg { display: inline-flex; padding: 4px; border-radius: 999px; background: #fff; border: 1px solid var(--ligne); }
+  .seg label { position: relative; }
+  .seg input { position: absolute; opacity: 0; }
+  .seg span { display: block; padding: 11px 20px; border-radius: 999px; font: 500 15px var(--texte); cursor: pointer; transition: background .2s, color .2s; min-height: 44px; }
+  .seg input:checked + span { background: var(--encre); color: var(--papier); }
+  .seg input:focus-visible + span { outline: 2px solid var(--rouille); outline-offset: 2px; }
+  .hint { margin-top: 10px; color: var(--graphite); font-size: 14px; }
+  .switch { display: flex; gap: 12px; align-items: center; cursor: pointer; font-weight: 500; }
+  .switch input { appearance: none; width: 46px; height: 28px; border-radius: 999px; background: var(--ligne); position: relative; cursor: pointer; transition: background .2s; }
+  .switch input::after { content: ''; position: absolute; top: 3px; left: 3px; width: 22px; height: 22px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px #0003; transition: translate .25s cubic-bezier(.2,.8,.2,1); }
+  .switch input:checked { background: var(--encre); }
+  .switch input:checked::after { translate: 18px; }
+  .switch input:focus-visible { outline: 2px solid var(--rouille); outline-offset: 3px; }
+
+  /* Typo */
+  .type { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .type div { background: #fff; border: 1px solid var(--ligne); border-radius: 16px; padding: 22px; }
+  .reveal { opacity: 0; translate: 0 24px; transition: opacity .7s ease, translate .7s cubic-bezier(.2,.8,.2,1); }
+  .reveal.in { opacity: 1; translate: 0 0; }
+
+  @media (max-width: 820px) {
+    .hero, .type { grid-template-columns: 1fr; }
+    .swatches { grid-template-columns: repeat(2, 1fr); }
+    .drop { width: 220px; }
+  }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } .reveal { opacity: 1; translate: none; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="label">Plume · planche de direction · à valider</p>
+
+  <section style="border:0">
+    <div class="hero">
+      <div>
+        <h1>Des photos plus légères.<em>Sans rien envoyer.</em></h1>
+        <p>Déposez vos images, choisissez un niveau, téléchargez. Tout se passe sur votre appareil : aucune image ne quitte votre navigateur.</p>
+        <div class="drop" role="button" tabindex="0" aria-label="Déposer des images">
+          <span class="plus" aria-hidden="true">+</span>
+          <b>Déposez vos photos ici</b>
+          <small>ou cliquez pour les choisir</small>
+          <span class="formats">JPG · PNG · WEBP</span>
+        </div>
+      </div>
+      <div>
+        <div class="compare" id="compare">
+          <img src="../assets/images/lake-mountains.jpg" alt="Lac de montagne, image d'origine">
+          <img class="after" src="../assets/images/lake-mountains.jpg" alt="Lac de montagne, image compressée">
+          <span class="handle" aria-hidden="true"></span>
+          <span class="tag l">Avant · 2,4 Mo</span><span class="tag r">Après · 612 Ko</span>
+        </div>
+        <div class="card"><span class="label">Gain</span><div class="n">−74 %</div><div class="bar"><i></i></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <h2>Réglages : deux choix, rien de plus</h2>
+    <div class="controls">
+      <div>
+        <div class="seg" role="radiogroup" aria-label="Niveau de compression">
+          <label><input type="radio" name="lvl"><span>Qualité max</span></label>
+          <label><input type="radio" name="lvl" checked><span>Équilibré</span></label>
+          <label><input type="radio" name="lvl"><span>Poids min</span></label>
+        </div>
+        <p class="hint">Le meilleur compromis pour le web. ≈ −70 % sur vos photos.</p>
+      </div>
+      <div>
+        <label class="switch"><input type="checkbox"> Convertir en WebP</label>
+        <p class="hint">Désactivé : chaque image garde son format d'origine.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <h2>Palette : encre, papier, graphite, une pointe de rouille</h2>
+    <div class="swatches">
+      <div class="sw" style="background:var(--encre);color:var(--papier)"><b>Encre</b><span>#141414 · textes, zone de dépôt, choix actif</span></div>
+      <div class="sw" style="background:var(--papier)"><b>Papier</b><span>#F3F2EE · fond</span></div>
+      <div class="sw" style="background:var(--graphite);color:#fff"><b>Graphite</b><span>#6F6C66 · textes secondaires</span></div>
+      <div class="sw" style="background:var(--rouille);color:#fff"><b>Rouille</b><span>#B4532A · gain, focus clavier (seul accent)</span></div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <h2>Typographie : un titre net, une signature en italique</h2>
+    <div class="type">
+      <div><p class="label">Titres · Familjen Grotesk 700</p><p style="font:700 40px/1 var(--titre);letter-spacing:-.03em;margin-top:14px">Plus léger.</p></div>
+      <div><p class="label">Signature · Newsreader italique 300</p><p style="font:italic 300 44px/1 var(--accent-titre);margin-top:14px">Sans rien envoyer.</p></div>
+      <div><p class="label">Texte · Onest 400</p><p style="margin-top:14px">Déposez vos images, choisissez un niveau, téléchargez. Lisible à 16 px, interligne 1,55.</p></div>
+    </div>
+  </section>
+</div>
+<script>
+  // Le rideau avant/après suit le défilement vertical, sans détourner la molette
+  const compare = document.getElementById('compare');
+  const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const update = () => {
+    const r = compare.getBoundingClientRect();
+    const p = Math.min(1, Math.max(0, 1 - (r.top + r.height / 2) / innerHeight));
+    compare.style.setProperty('--pos', (still ? 50 : 15 + p * 70) + '%');
+  };
+  addEventListener('scroll', update, { passive: true }); update();
+  // Apparition douce des sections
+  const io = new IntersectionObserver((es) => es.forEach((e) => e.isIntersecting && e.target.classList.add('in')), { threshold: .2 });
+  document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+</script>
+</body>
+</html>

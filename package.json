@@ -1,0 +1,15 @@
+{
+  "name": "plume",
+  "private": true,
+  "description": "Plume : des images légères, sans quitter votre navigateur (jour 12 du défi 30 jours, 30 projets)",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "node --test"
+  },
+  "devDependencies": {
+    "vite": "^8.3.5"
+  }
+}
