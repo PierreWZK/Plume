@@ -1,6 +1,6 @@
 import { compressFile } from './compress.js';
 import { CONCURRENCY, processBatch } from './batch.js';
-import { formatBytes } from './format.js';
+import { formatBytes, progressMessage } from './format.js';
 import { initReveal } from './reveal.js';
 import { LEVELS, canEncodeWebp, errorMessage, isSupported, suggestWebp } from './settings.js';
 
@@ -9,6 +9,7 @@ initReveal();
 const drop = document.getElementById('drop');
 const input = document.getElementById('files');
 const results = document.getElementById('results');
+const status = document.getElementById('status');
 const form = document.getElementById('settings');
 const levelHint = document.getElementById('level-hint');
 const webp = document.getElementById('webp');
@@ -76,6 +77,7 @@ function render(item, file, result, settings) {
   // Noms fournis par l'utilisateur : jamais dans le HTML
   item.querySelector('.name').textContent = file.name;
   item.querySelector('.download').download = result.name;
+  item.querySelector('.download').setAttribute('aria-label', `Télécharger ${result.name}`);
 }
 
 // Un format refusé devient une erreur de son image, sans bloquer les autres
@@ -101,7 +103,7 @@ async function handle(files) {
   results.replaceChildren(...items);
 
   const outcomes = await processBatch(lastFiles, settings, checkedCompress, (done, total) => {
-    results.setAttribute('aria-label', `${done} sur ${total} images traitées`);
+    if (current === run) status.textContent = progressMessage(done, total);
   });
   if (current !== run) return;
   outcomes.forEach((outcome, i) => {

@@ -12,6 +12,13 @@ export function formatBytes(bytes) {
   return `${value.toLocaleString('fr-FR', { maximumFractionDigits: digits })} ${UNITS[unit]}`;
 }
 
+/** Annonce lue par les lecteurs d'écran pendant et après un lot. */
+export function progressMessage(done, total) {
+  const images = `${done} image${done > 1 ? 's' : ''} traitée${done > 1 ? 's' : ''} sur ${total}`;
+  if (done < total) return `${images}…`;
+  return `${images}. Prête${total > 1 ? 's' : ''} à télécharger.`;
+}
+
 /** Gain en pourcentage entier, 0 s'il n'y a rien à gagner. */
 export function gainPercent(before, after) {
   if (before <= 0 || after >= before) return 0;

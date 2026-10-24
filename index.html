@@ -20,7 +20,8 @@
     </a>
   </header>
 
-  <main class="hero">
+  <main>
+  <div class="hero">
     <div class="intro">
       <h1>Des photos plus légères.<em>Sans rien envoyer.</em></h1>
       <p class="lead">Déposez vos images, choisissez un niveau, téléchargez. Tout se passe sur votre appareil : aucune image ne quitte votre navigateur.</p>
@@ -49,9 +50,10 @@
           <p class="hint" id="webp-hint">Désactivé : chaque image garde son format d'origine.</p>
         </div>
       </form>
-      <ul class="results" id="results" aria-live="polite"></ul>
+      <p class="visually-hidden" id="status" role="status"></p>
+      <ul class="results" id="results"></ul>
     </div>
-  </main>
+  </div>
 
   <section class="proof reveal" aria-labelledby="proof-title">
     <div class="proof-text">
@@ -70,5 +72,6 @@
       <figcaption>Photo « Lake Mountains », eberhard grossgasteiger, domaine public (CC0).</figcaption>
     </figure>
   </section>
+  </main>
 </body>
 </html>

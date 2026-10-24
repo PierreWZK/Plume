@@ -12,6 +12,6 @@ Détail de chaque étape dans [plan.md](plan.md).
 - [x] Point d'étape B
 - [x] 7. Habillage selon la direction
 - [x] 8. Comparateur et mouvement
-- [ ] 9. Accessibilité et finitions
-- [ ] Point d'étape C
+- [x] 9. Accessibilité et finitions
+- [x] Point d'étape C
 - [ ] 10. Fin de projet (aperçu du lien, indexation, README)

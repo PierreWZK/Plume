@@ -1,6 +1,16 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { formatBytes, gainPercent } from '../src/format.js';
+import { formatBytes, gainPercent, progressMessage } from '../src/format.js';
+
+test('progressMessage annonce l\'avancement d\'un lot', () => {
+  assert.equal(progressMessage(1, 3), '1 image traitée sur 3…');
+  assert.equal(progressMessage(2, 3), '2 images traitées sur 3…');
+});
+
+test('progressMessage annonce la fin du lot', () => {
+  assert.equal(progressMessage(3, 3), '3 images traitées sur 3. Prêtes à télécharger.');
+  assert.equal(progressMessage(1, 1), '1 image traitée sur 1. Prête à télécharger.');
+});
 
 test('formatBytes affiche les petits fichiers en octets', () => {
   assert.equal(formatBytes(0), '0 o');
