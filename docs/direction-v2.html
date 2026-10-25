@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Plume · Direction v2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@600;700&family=Newsreader:ital,opsz,wght@1,6..72,300&family=Onest:wght@400;500;600&display=swap">
+<style>
+  /* Planche de direction v2 : jetable, sert à valider la composition avant de toucher au site */
+  :root {
+    --encre: #141414; --papier: #F3F2EE; --blanc: #FFFFFF; --graphite: #6F6C66; --ligne: #E2E0DA; --rouille: #B4532A;
+    --titre: 'Familjen Grotesk', system-ui, sans-serif;
+    --signature: 'Newsreader', Georgia, serif;
+    --texte: 'Onest', system-ui, sans-serif;
+    --doux: cubic-bezier(.2, .8, .2, 1);
+  }
+  * { box-sizing: border-box; margin: 0; }
+  body { background: var(--papier); color: var(--encre); font: 400 16px/1.55 var(--texte); }
+  :focus-visible { outline: 2px solid var(--rouille); outline-offset: 3px; }
+  .wrap { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+  /* En-tête */
+  header { display: flex; align-items: center; justify-content: space-between; height: 84px; }
+  .brand { display: flex; align-items: center; gap: 10px; font: 700 22px var(--titre); letter-spacing: -.02em; color: var(--encre); text-decoration: none; }
+  nav { display: flex; gap: 32px; font-size: 15px; }
+  nav a { color: var(--graphite); text-decoration: none; min-height: 44px; display: inline-flex; align-items: center; }
+  nav a[aria-current] { color: var(--encre); box-shadow: inset 0 -2px var(--encre); }
+  .cta { display: inline-flex; align-items: center; gap: 10px; height: 44px; padding: 0 20px; border-radius: 999px; background: var(--encre); color: var(--papier); font-weight: 500; font-size: 15px; text-decoration: none; }
+
+  /* Héro */
+  .hero { display: grid; grid-template-columns: 1fr 1.1fr; gap: 56px; align-items: center; padding: 48px 0 88px; }
+  h1 { font: 700 clamp(48px, 6.2vw, 84px)/.98 var(--titre); letter-spacing: -.035em; }
+  h1 em { display: block; font: 300 1.02em/1 var(--signature); font-style: italic; letter-spacing: -.01em; margin-top: .1em; }
+  .lead { margin-top: 28px; color: var(--graphite); font-size: 18px; max-width: 40ch; }
+  .points { display: flex; gap: 40px; margin-top: 48px; }
+  .points div { border-left: 1px solid var(--ligne); padding-left: 20px; }
+  .points b { display: block; font: 600 16px var(--titre); }
+  .points span { color: var(--graphite); font-size: 14px; }
+
+  /* Scène : zone de dépôt, aperçu avant/après, cartes flottantes */
+  .stage { position: relative; height: 560px; }
+  .drop { position: absolute; left: 50%; top: 50%; translate: -50% -50%; width: 340px; aspect-ratio: 1; border-radius: 50%; background: var(--encre); color: var(--papier);
+    display: grid; place-content: center; justify-items: center; text-align: center; gap: 8px; padding: 32px;
+    box-shadow: 0 0 0 16px var(--blanc), 0 40px 80px -30px #0006; }
+  .plus { width: 56px; height: 56px; border-radius: 50%; background: var(--blanc); color: var(--encre); display: grid; place-items: center; font-size: 30px; line-height: 1; margin-bottom: 8px; }
+  .drop small { opacity: .75; font-size: 14px; }
+  .formats { margin-top: 14px; font: 500 12px var(--texte); letter-spacing: .08em; opacity: .75; }
+  .file { position: absolute; left: 0; top: 40px; width: 300px; display: flex; gap: 14px; align-items: center; padding: 14px; background: var(--blanc); border-radius: 16px; box-shadow: 0 16px 40px -18px #0005; }
+  .file img { width: 52px; height: 52px; border-radius: 10px; object-fit: cover; }
+  .file b { display: block; font-weight: 500; font-size: 14px; }
+  .file span { color: var(--graphite); font-size: 13px; }
+  .compare { position: absolute; right: 0; top: 0; width: 400px; border-radius: 20px; overflow: hidden; aspect-ratio: 4 / 3; box-shadow: 0 30px 60px -28px #0007; --pos: 50%; }
+  .compare img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: grayscale(1) contrast(1.05); }
+  .compare .after { clip-path: inset(0 0 0 var(--pos)); }
+  .compare .handle { position: absolute; top: 0; bottom: 0; left: var(--pos); width: 2px; background: var(--blanc); }
+  .compare .handle::after { content: ''; position: absolute; top: 50%; left: 50%; width: 30px; height: 30px; translate: -50% -50%; border-radius: 50%; background: var(--blanc); box-shadow: 0 2px 8px #0004; }
+  .tag { position: absolute; top: 14px; padding: 7px 12px; border-radius: 999px; background: #FFFFFFEE; font-size: 13px; font-weight: 500; }
+  .tag.l { left: 14px; } .tag.r { right: 14px; }
+  .gain { position: absolute; right: 16px; bottom: 16px; width: 230px; padding: 18px; background: var(--blanc); border-radius: 18px; box-shadow: 0 20px 40px -20px #0005; }
+  .gain span { color: var(--graphite); font-size: 13px; }
+  .gain b { display: block; font: 700 36px/1 var(--titre); color: var(--rouille); letter-spacing: -.02em; margin-top: 6px; }
+  .gain i { display: block; height: 4px; border-radius: 4px; background: var(--ligne); margin-top: 14px; overflow: hidden; }
+  .gain i::after { content: ''; display: block; width: 83%; height: 100%; background: var(--encre); }
+
+  /* Bande sombre */
+  .dark { background: var(--encre); color: var(--papier); padding: 96px 0; }
+  .dark-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 64px; align-items: center; }
+  .dark h2 { font: 700 clamp(34px, 3.8vw, 52px)/1.04 var(--titre); letter-spacing: -.025em; }
+  .dark h2 em { display: block; font: 300 1.02em/1.1 var(--signature); font-style: italic; }
+  .dark p { color: #bfbcb4; margin-top: 22px; max-width: 46ch; }
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .stats div { border-top: 1px solid #3a3a3a; padding-top: 18px; }
+  .stats b { display: block; font: 700 40px/1 var(--titre); letter-spacing: -.02em; }
+  .stats span { color: #bfbcb4; font-size: 14px; }
+  .cta-light { display: inline-flex; align-items: center; gap: 10px; height: 52px; padding: 0 26px; border-radius: 999px; background: var(--papier); color: var(--encre); font-weight: 600; text-decoration: none; margin-top: 36px; }
+
+  /* Pied */
+  footer { display: flex; justify-content: space-between; align-items: center; height: 96px; font-size: 14px; color: var(--graphite); }
+  footer a { color: var(--encre); text-decoration: none; min-height: 44px; display: inline-flex; align-items: center; margin-left: 28px; }
+
+  @media (max-width: 900px) {
+    nav { display: none; }
+    .hero, .dark-grid { grid-template-columns: 1fr; gap: 40px; }
+    .stage { height: 520px; }
+    .compare { width: 300px; }
+    .file { width: 240px; }
+    .stats { grid-template-columns: 1fr; }
+  }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <a class="brand" href="#">
+      <svg width="30" height="30" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#141414"/><path d="M9 24c3-8 7-13 15-17-2 6-5 11-11 13m-4 4 5-6" fill="none" stroke="#F3F2EE" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Plume
+    </a>
+    <nav aria-label="Principal">
+      <a href="#" aria-current="page">Accueil</a>
+      <a href="#">Niveaux</a>
+      <a href="#">Confidentialité</a>
+      <a href="#">Questions</a>
+    </nav>
+    <a class="cta" href="#">Choisir des photos</a>
+  </header>
+
+  <section class="hero">
+    <div>
+      <h1>Des photos plus légères.<em>Sans rien envoyer.</em></h1>
+      <p class="lead">Déposez vos images, choisissez un niveau, téléchargez. La compression se fait sur votre appareil : aucune photo ne quitte votre navigateur.</p>
+      <div class="points">
+        <div><b>Rapide</b><span>Plusieurs images à la fois</span></div>
+        <div><b>Privé</b><span>Rien n'est envoyé</span></div>
+        <div><b>Net</b><span>Qualité préservée</span></div>
+      </div>
+    </div>
+
+    <div class="stage" aria-label="Aperçu de l'outil">
+      <div class="file">
+        <img src="../assets/images/lake-mountains.jpg" alt="">
+        <div><b>photo-lourde.jpg</b><span>2,5 Mo</span></div>
+      </div>
+      <div class="compare" id="compare">
+        <img src="../assets/images/lake-mountains.jpg" alt="Photo d'origine">
+        <img class="after" src="../assets/images/lake-mountains.jpg" alt="">
+        <span class="handle" aria-hidden="true"></span>
+        <span class="tag l">Avant · 2,5 Mo</span><span class="tag r">Après · 951 Ko</span>
+      </div>
+      <div class="drop" role="button" tabindex="0" aria-label="Déposer des photos">
+        <span class="plus" aria-hidden="true">+</span>
+        <b>Glissez vos photos ici</b>
+        <small>ou cliquez pour les choisir</small>
+        <span class="formats">JPG · PNG · WEBP</span>
+      </div>
+      <div class="gain"><span>Gain en Équilibré</span><b>−62 %</b><i></i></div>
+    </div>
+  </section>
+</div>
+
+<section class="dark">
+  <div class="wrap dark-grid">
+    <div>
+      <h2>Un fichier plus léger,<em>la même photo.</em></h2>
+      <p>Trois niveaux, du plus fidèle au plus léger. Si la compression ne gagne rien, votre original est gardé, sans ses informations de position.</p>
+      <a class="cta-light" href="#">Essayer avec une photo</a>
+    </div>
+    <div class="stats">
+      <div><b>−62 %</b><span>sur une photo de 2,5 Mo, en Équilibré</span></div>
+      <div><b>0</b><span>octet envoyé sur un serveur</span></div>
+      <div><b>40 Mpx</b><span>taille maximale par image</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap">
+  <footer>
+    <span>Plume · Jour 12 du défi 30 jours, 30 projets</span>
+    <span><a href="#">Code source</a><a href="#">Confidentialité</a></span>
+  </footer>
+</div>
+
+<script>
+  // Rideau avant/après : suit le défilement, figé au milieu si le mouvement est réduit
+  const compare = document.getElementById('compare');
+  const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const update = () => {
+    const r = compare.getBoundingClientRect();
+    const p = Math.min(1, Math.max(0, (innerHeight - (r.top + r.height / 2)) / (innerHeight / 2)));
+    compare.style.setProperty('--pos', (still ? 50 : 15 + p * 70) + '%');
+  };
+  addEventListener('scroll', update, { passive: true }); update();
+</script>
+</body>
+</html>

@@ -89,6 +89,8 @@ async function handle(files) {
     return item;
   });
   results.replaceChildren(...items);
+  // Les résultats sont sous le héros : on les amène à l'écran (défilement doux sauf mouvement réduit, géré en CSS)
+  document.getElementById('outil').scrollIntoView({ block: 'start' });
 
   const outcomes = await processBatch(lastFiles, settings, checkedCompress, (done, total) => {
     if (current === run) status.textContent = progressMessage(done, total);
