@@ -1,6 +1,6 @@
 # Plume · Des images légères, sans quitter votre navigateur
 
-> Jour 12 du défi **30 jours, 30 projets** · JavaScript · Canvas · Web Workers · 🚧 **Prêt, mise en ligne à venir**
+> Jour 12 du défi **30 jours, 30 projets** · JavaScript · Canvas · Web Workers · 🟢 **En ligne : [plume.projectp.fr](https://plume.projectp.fr)**
 
 ![Page d'accueil de Plume](docs/preview.png)
 
@@ -50,7 +50,7 @@ docs/                 Capture du README, planche de direction artistique
 
 ## Mise en ligne
 
-Prévue sur Coolify (site statique, build `npm run build`, dossier `dist/`) : **https://plume.projectp.fr**.
+En ligne sur Coolify (site statique, build `npm run build`, dossier `dist/`) : **https://plume.projectp.fr**. Déploiement automatique à chaque push sur la branche principale.
 
 ## Stack
 
