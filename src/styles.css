@@ -119,8 +119,8 @@ legend { font: 600 18px var(--titre); margin-bottom: 12px; padding: 0; }
 @keyframes arrive { from { opacity: 0; translate: 0 8px; } }
 
 /* Bande sombre */
-.dark { background: var(--encre); color: var(--papier); padding: 104px 0; scroll-margin-top: 0; }
-.dark-inner { width: var(--large); margin: 0 auto; display: grid; grid-template-columns: 1.1fr 1fr; gap: 64px; align-items: center; }
+.dark { background: var(--encre); color: var(--papier); padding: 104px 24px; }
+.dark-inner { width: min(1200px, 100%); margin: 0 auto; display: grid; grid-template-columns: 1.1fr 1fr; gap: 64px; align-items: center; }
 .dark p { margin-top: 22px; max-width: 46ch; color: var(--gris-nuit); }
 .cta-light { margin-top: 36px; min-height: 52px; padding: 0 26px; background: var(--papier); color: var(--encre); font-weight: 600; }
 .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
