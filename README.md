@@ -1,8 +1,14 @@
 # Plume · Des images légères, sans quitter votre navigateur
 
-> Jour 12 du défi **30 jours, 30 projets** · JavaScript · Canvas · Web Workers · 🟢 **En ligne : [plume.projectp.fr](https://plume.projectp.fr)**
+🌐 **[plume.projectp.fr](https://plume.projectp.fr/)** · Jour 12 du défi **[30 jours, 30 projets](https://projectp.fr/)** · [Dépôt du défi](https://github.com/PierreWZK/30DaysProjects)
 
-![Page d'accueil de Plume](docs/preview.png)
+Stack : JavaScript, Canvas, Web Workers.
+
+[![Page d'accueil de Plume](docs/preview-accueil.png)](https://plume.projectp.fr/)
+
+<p align="center">
+  <img src="docs/preview-mobile.png" alt="Plume sur téléphone" width="260">
+</p>
 
 Plume réduit le poids de vos photos pour le web. Vous déposez vos images, vous choisissez un niveau de compression, puis vous téléchargez le résultat. Tout se passe dans votre navigateur : aucune image n'est envoyée sur un serveur.
 
@@ -61,3 +67,14 @@ JavaScript (modules, sans framework), Canvas, Web Workers, Vite. Polices Familje
 - **Indexation** : `robots.txt`, `sitemap.xml`, balise canonical, données structurées JSON-LD (`WebApplication` rattachée à ProjectP) et lien « 30 jours, 30 projets » vers https://projectp.fr/ dans le pied de page. Vérifier en ligne, puis soumettre `https://plume.projectp.fr/sitemap.xml` dans Google Search Console.
 - **Aperçu du lien** : image Open Graph stylisée 1200 × 630 aux couleurs du projet et balises `og:*` / `twitter:card`, vérifiées en ligne.
 - **Vitrine** : la mise à jour de `30days30projects` (README et `projects.js`) se fait après validation.
+
+---
+
+## Le défi 30 jours, 30 projets
+
+Un projet complet par jour pendant 30 jours, chacun en ligne sur son propre sous-domaine.
+
+- 🗂️ **Tous les projets** : [projectp.fr](https://projectp.fr/)
+- 💻 **Le dépôt du défi** : [github.com/PierreWZK/30DaysProjects](https://github.com/PierreWZK/30DaysProjects)
+- ⬅️ **Jour précédent** : [Ludex, API de ludothèque](https://ludex.projectp.fr/)
+- ➡️ **Jour suivant** : [Radar, santé des sites](https://radar.projectp.fr/)
